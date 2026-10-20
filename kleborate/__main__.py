@@ -517,7 +517,7 @@ def decompress_file(in_file, out_file):
 
 MAX_CPUS = 32
 def check_cpus(cpus: Any = None, max_cpus: int = MAX_CPUS, verbose: bool = False) -> int:
-    avail_cpus = os.cpu_count() or 1
+    avail_cpus = len(os.sched_getaffinity(0)) if if hasattr(os, "sched_getaffinity") else os.cpu_count() or 1
 
     if isinstance(cpus, str):
         cpus = int(cpus.strip()) if cpus.strip().isdigit() else 0
